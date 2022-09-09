@@ -22,7 +22,7 @@ namespace FileUploadSample
             services.AddGraphQLUpload();
             services.AddGraphQL(builder => builder
                 .AddSystemTextJson()
-                .AddErrorInfoProvider(opt => opt.ExposeExceptionStackTrace = true));
+                .AddErrorInfoProvider(opt => opt.ExposeExceptionDetails = true));
 
             services.AddCors();
         }
