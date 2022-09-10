@@ -23,6 +23,6 @@ namespace GraphQL.Upload.AspNetCore
         /// <summary>
         /// Gets or sets the user context factory.
         /// </summary>
-        public Func<HttpContext, Task<IDictionary<string, object>>> UserContextFactory { get; set; }
+        public Func<HttpContext, object, ValueTask<IDictionary<string, object>>> UserContextFactory { get; set; }
     }
 }
