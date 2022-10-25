@@ -19,10 +19,5 @@ namespace GraphQL.Upload.AspNetCore
         /// The maximum allowed amount of files. Null indicates no limit at all.
         /// </summary>
         public long? MaximumFileCount { get; set; }
-
-        /// <summary>
-        /// Gets or sets the user context factory.
-        /// </summary>
-        public Func<HttpContext, object, ValueTask<IDictionary<string, object>>> UserContextFactory { get; set; }
     }
 }

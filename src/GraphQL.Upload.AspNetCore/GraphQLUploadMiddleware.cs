@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using GraphQL.Execution;
+using GraphQL.Server.Transports.AspNetCore;
 using GraphQL.Types;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
@@ -20,14 +21,18 @@ namespace GraphQL.Upload.AspNetCore
         private readonly GraphQLUploadOptions _options;
         private readonly GraphQLUploadRequestDeserializer _requestDeserializer;
         private readonly string _graphQLPath;
+        private readonly IUserContextBuilder _userContextBuilder;
+
         public GraphQLUploadMiddleware(ILogger<GraphQLUploadMiddleware<TSchema>> logger, RequestDelegate next,
-            GraphQLUploadOptions options, PathString path, GraphQLUploadRequestDeserializer requestDeserializer)
+            GraphQLUploadOptions options, PathString path, GraphQLUploadRequestDeserializer requestDeserializer,
+            IUserContextBuilder userContextBuilder)
         {
             _logger = logger;
             _next = next ?? throw new ArgumentNullException(nameof(next));
             _options = options;
             _requestDeserializer = requestDeserializer;
             _graphQLPath = path;
+            _userContextBuilder = userContextBuilder;
         }
 
         public async Task InvokeAsync(HttpContext context)
@@ -95,7 +100,12 @@ namespace GraphQL.Upload.AspNetCore
             var executer = context.RequestServices.GetRequiredService<IDocumentExecuter>();
             var schema = context.RequestServices.GetRequiredService<TSchema>();
 
-            var userContext = await getUserContext(context, null);
+            IDictionary<String, Object> userContext = null;
+            if (_userContextBuilder != null)
+            {
+                userContext = await _userContextBuilder.BuildUserContextAsync(context, null);
+            }
+
             var listeners = context.RequestServices.GetRequiredService<IEnumerable<IDocumentExecutionListener>>().ToList();
 
             var results = await Task.WhenAll(
@@ -267,17 +277,6 @@ namespace GraphQL.Upload.AspNetCore
             }
 
             return (requests, null);
-        }
-
-        private ValueTask<IDictionary<string, object>> getUserContext(HttpContext context, object payload)
-        {
-            if (context == null)
-            {
-                throw new ArgumentNullException(nameof(context));
-            }
-
-            return _options?.UserContextFactory?.Invoke(context, payload) ??
-                   new ValueTask<IDictionary<string, object>>(new Dictionary<string, object>());
         }
     }
 }
