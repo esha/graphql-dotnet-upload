@@ -6,8 +6,8 @@
     </PropertyGroup>
 
     <PropertyGroup>
-        <GraphQLVersion>7.1.1</GraphQLVersion>
-        <GraphQLServerVersion>7.1.1</GraphQLServerVersion>
+        <GraphQLVersion>8.1.0</GraphQLVersion>
+        <GraphQLServerVersion>8.0.2</GraphQLServerVersion>
         <MicrosoftAspNetCoreHttpAbstractionsVersion>2.2.0</MicrosoftAspNetCoreHttpAbstractionsVersion>
         <MicrosoftExtensionsLoggingVersion>6.0.0</MicrosoftExtensionsLoggingVersion>
         <MicrosoftExtensionsOptionsVersion>6.0.0</MicrosoftExtensionsOptionsVersion>

@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>netstandard2.0;netstandard2.1;net6.0;</TargetFrameworks>
+    <TargetFrameworks>netstandard2.0;netstandard2.1;net8.0;</TargetFrameworks>
     <Version>3.0.2</Version>
     <Authors>Jannik Lassahn</Authors>
     <Company />
@@ -13,7 +13,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <FrameworkReference Include="Microsoft.AspNetCore.App" Condition="'$(TargetFramework)' == 'net6.0'" />
+    <FrameworkReference Include="Microsoft.AspNetCore.App" Condition="'$(TargetFramework)' == 'net8.0'" />
     <PackageReference Include="GraphQL" Version="$(GraphQLVersion)" />
     <PackageReference Include="GraphQL.SystemTextJson" Version="$(GraphQLVersion)" />
     <PackageReference Include="Microsoft.Extensions.Logging" Version="$(MicrosoftExtensionsLoggingVersion)" />
